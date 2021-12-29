@@ -24,17 +24,16 @@ def analysis_g_const():
         im_path1, im_path2, im_path3, im_path4 = None, None, None, None
         uploaded_files = request.files.getlist("file1[]")
         if uploaded_files:
-            im_path1, meta_info = utils.make_plot(uploaded_files, 'g', 'm', "Число омматидиев", "Число коллизий")
+            im_path1, meta_info = utils.make_plot(uploaded_files, 'g', 'm', "m", "Number of collisions")
         uploaded_files = request.files.getlist("file2[]")
         if uploaded_files:
-            im_path2, meta_info = utils.make_plot(uploaded_files, 'g', 'h', "Расстояние между глазами", "Число коллизий")
+            im_path2, meta_info = utils.make_plot(uploaded_files, 'g', 'h', "h", "Number of collisions")
         uploaded_files = request.files.getlist("file3[]")
         if uploaded_files:
-            im_path3, meta_info = utils.make_plot(uploaded_files, 'g', 'l', "Радиус глаза", "Число коллизий")
+            im_path3, meta_info = utils.make_plot(uploaded_files, 'g', 'l', "l", "Number of collisions")
         uploaded_files = request.files.getlist("file4[]")
         if uploaded_files:
-            im_path4, meta_info = utils.make_plot(uploaded_files, 'g', 'rMax', "Максимальное расстояние до объекта",
-                                             "Число коллизий")
+            im_path4, meta_info = utils.make_plot(uploaded_files, 'g', 'rMax', "r_max", "Number of collisions")
         meta_dict = {}
         if meta_info:
             meta_dict = {'gObj': f'{meta_info[3]}..{meta_info[4]}',
@@ -50,7 +49,7 @@ def analysis_g_const():
 def analysis_g_const_m_diff():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file[]")
-        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'm', "Число омматидиев", "Число коллизий")
+        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'm', "m", "Number of collisions")
         meta_dict = {}
         if meta_info:
             meta_dict = {'h': meta_info[0], 'l': meta_info[1], 'gObj': f'{meta_info[3]}..{meta_info[4]}',
@@ -65,7 +64,7 @@ def analysis_g_const_m_diff():
 def analysis_g_const_h_diff():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file[]")
-        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'h', "Расстояние между глазами", "Число коллизий")
+        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'h', "h", "Number of collisions")
         meta_dict = {}
         if meta_info:
             meta_dict = {'l': meta_info[1],'m': meta_info[2], 'gObj': f'{meta_info[3]}..{meta_info[4]}',
@@ -80,7 +79,7 @@ def analysis_g_const_h_diff():
 def analysis_g_const_l_diff():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file[]")
-        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'l', "Радиус глаза", "Число коллизий")
+        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'l', "l", "Number of collisions")
         meta_dict = {}
         if meta_info:
             meta_dict = {'h': meta_info[0], 'm': meta_info[2], 'gObj': f'{meta_info[3]}..{meta_info[4]}',
@@ -95,8 +94,8 @@ def analysis_g_const_l_diff():
 def analysis_g_const_r_diff():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file[]")
-        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'rMax', "Максимальное расстояние до объекта",
-                                             "Число коллизий")
+        im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'rMax', "r_max",
+                                             "Number of collisions")
         meta_dict = {}
         if meta_info:
             meta_dict = {'h': meta_info[0], 'l': meta_info[1], 'm':meta_info[2], 'gObj': f'{meta_info[3]}..{meta_info[4]}',
@@ -490,17 +489,7 @@ def get_dataset(task_id):
 def clean_dataset():
     if request.method == 'POST':
         uploaded_file = request.files.get("file")
-        #im_path, meta_info = utils.make_plot(uploaded_files, 'g', 'l', "Радиус глаза", "Число коллизий")
-        # meta_dict = {}
-        # if meta_info:
-        #     meta_dict = {'h': meta_info[0], 'm': meta_info[2], 'gObj': f'{meta_info[3]}..{meta_info[4]}',
-        #                  'fiObj': f'{meta_info[5]}..{meta_info[6]}', 'rObj': f'{meta_info[7]}..{meta_info[8]}',
-        #                  'n': meta_info[9]}
-        # return render_template("analysis_result.html", title="Generator - Analysis", im_path=im_path,
-        #                        meta_dict=meta_dict)
         dataset_name = utils.clean_dataset(uploaded_file)
         return send_from_directory(os.path.join(app.root_path, 'datasets'), filename=dataset_name, as_attachment=True)
     else:
         return render_template('clean_dataset.html', title="Generator - Clean datasets")
-    # path = os.path.join(app.root_path, 'datasets')
-    # return send_from_directory(path, filename=f'dataset_{task_id}.csv', as_attachment=True)
